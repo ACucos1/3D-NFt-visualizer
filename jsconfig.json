@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@providers": ["src/providers"],
+      "@providers/*": ["src/providers/*"],
+      "@components": ["src/components"],
+      "@components/*": ["src/components/*"]
+    }
+  }
+  // "include": ["src/**/*.jsx", "src/**/*.js"],
+  // "exclude": ["node_modules", "**/node_modules", "dist"]
+}
