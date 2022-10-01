@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AlchemyContext } from "@providers";
+import { PageNavigator } from "@components";
 
 export function WalletInput() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,6 +25,8 @@ export function WalletInput() {
         />
         <button onClick={handleClick}>Search</button>
       </form>
+
+      <PageNavigator address={searchTerm.toLowerCase()} />
     </div>
   );
 }

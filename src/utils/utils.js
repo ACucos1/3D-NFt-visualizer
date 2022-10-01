@@ -21,10 +21,10 @@ export const urlWorks = (url) => {
 };
 
 export const isValidUrl = (url) => {
-  return url.length > 0;
+  return !!url;
 };
 
-export const getNftImageUrl = (nft) => {
+export const extractNftData = (nft) => {
   if (!nft.rawMetadata.image) return "";
 
   let parsedUrl = parseImgUrl(nft.rawMetadata.image);
@@ -32,5 +32,5 @@ export const getNftImageUrl = (nft) => {
 
   if (parsedUrl.length > 0) finalUrl = parsedUrl;
 
-  return finalUrl;
+  return { url: finalUrl, name: nft.contract.name, desc: nft.description };
 };

@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import { Network, Alchemy } from "alchemy-sdk";
-import { parseImgUrl, urlWorks, isValidUrl, getNftImageUrl } from "@utils";
+import { urlWorks, isValidUrl, extractNftData } from "@utils";
 
 export const AlchemyContext = createContext();
 const settings = {
@@ -10,12 +10,13 @@ const settings = {
 
 export const AlchemyProvider = ({ children }) => {
   const [alchemy] = useState(new Alchemy(settings));
-  const [nftUrls, setNftUrls] = useState([]);
+  const [nftObjs, setNftObjs] = useState([]);
   const [pageKey, setPageKey] = useState("");
 
   const getNftsForOwner = async (address, pageKey = "") => {
-    setNftUrls([]);
+    setNftObjs([]);
     const response = await alchemy.nft.getNftsForOwner(address, {
+      owner: address,
       pageKey: pageKey,
       pageSize: 8,
     });
@@ -29,11 +30,11 @@ export const AlchemyProvider = ({ children }) => {
 
   const validateNfts = async (nfts) => {
     for (const nft of nfts) {
-      let url = getNftImageUrl(nft);
-      if (isValidUrl(url)) {
-        const result = await urlWorks(url);
+      let nftObj = extractNftData(nft);
+      if (isValidUrl(nftObj.url)) {
+        const result = await urlWorks(nftObj.url);
         if (result == true) {
-          setNftUrls((prev) => [...prev, url]);
+          setNftObjs((prev) => [...prev, nftObj]);
         }
       }
     }
@@ -41,7 +42,7 @@ export const AlchemyProvider = ({ children }) => {
 
   return (
     <AlchemyContext.Provider
-      value={{ alchemy, getNftsForOwner, pageKey, nftUrls }}>
+      value={{ alchemy, getNftsForOwner, pageKey, nftObjs }}>
       {children}
     </AlchemyContext.Provider>
   );
