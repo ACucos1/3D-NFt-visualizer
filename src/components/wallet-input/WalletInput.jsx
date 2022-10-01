@@ -9,10 +9,8 @@ export function WalletInput() {
     setSearchTerm(e.target.value);
   };
 
-  const handleClick = async () => {
-    try {
-      getNftsForOwner(searchTerm);
-    } catch (err) {}
+  const handleClick = () => {
+    getNftsForOwner(searchTerm.toLowerCase());
   };
 
   return (
