@@ -14,12 +14,14 @@ export const AlchemyProvider = ({ children }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageKeys, setPageKeys] = useState([""]);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getNftsForOwner = async (
     address,
     pageKey = "",
     isNewSearch = false
   ) => {
+    setLoading(true);
     if (isNewSearch) {
       setPageKeys([""]);
       setPageIndex(0);
@@ -30,18 +32,18 @@ export const AlchemyProvider = ({ children }) => {
       pageKey: pageKey,
       pageSize: 8,
     });
-    // console.log("Number of NFTs found: ", response.totalCount);
-    console.log(response);
-    setTotalPages(Math.ceil(response.totalCount / 8));
+    setTotalPages(Math.floor(response.totalCount / 8));
     if (pageKeys.indexOf(response.pageKey) === -1) {
       setPageKeys((prev) => [...prev, response.pageKey]);
     }
 
     const nfts = response.ownedNfts;
     validateNfts(nfts);
+    setLoading(false);
   };
 
   const validateNfts = async (nfts) => {
+    setLoading(true);
     for (const nft of nfts) {
       let nftObj = extractNftData(nft);
       if (isValidUrl(nftObj.url)) {
@@ -52,6 +54,7 @@ export const AlchemyProvider = ({ children }) => {
         setNftObjs((prev) => [...prev, nftObj]);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -59,6 +62,7 @@ export const AlchemyProvider = ({ children }) => {
       value={{
         alchemy,
         getNftsForOwner,
+        loading,
         totalPages,
         pageIndex,
         setPageIndex,

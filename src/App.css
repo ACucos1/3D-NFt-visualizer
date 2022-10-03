@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 body,
 html,
 #root {
@@ -8,61 +10,80 @@ html,
   min-height: 100%;
 }
 
+#root {
+  --color-off-white: rgb(185, 185, 185);
+  --color-gray: rgb(70, 70, 70);
+  --color-error: red;
+  --text-primary-color: rgb(255, 255, 255);
+  --text-secondary-color: rgb(70, 70, 70);
+  --background-color: #1c1c1c;
+  --nft-card-bgc: rgb(46, 46, 46);
+  --nft-card-description-bgc: rgb(51, 51, 51);
+  --font-primary: "DM Mono", monospace;
+  --font-secondary: "roboto", sans-serif;
+  --border-radius: 12px;
+}
+
+h1 {
+  font-family: var(--font-primary);
+  color: var(--text-primary-color);
+}
+
+h2 {
+  font-family: var(--font-secondary);
+  color: var(--text-primary-color);
+}
+
+h3 {
+  font-family: var(--font-secondary);
+  color: var(--text-secondary-color);
+}
+
+p {
+  font-family: var(--font-secondary);
+}
+
+a {
+  color: inherit;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
+  /*Variables dont work here for some reason*/
   background-color: #1c1c1c;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgb(51, 51, 51);
+  background-color: var(--nft-card-description-bgc);
 }
 
 ::-webkit-scrollbar-thumb {
+  /*Variables dont work here for some reason*/
   background-color: rgb(119, 119, 119);
   border-radius: 25px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  /*Variables dont work here for some reason*/
   background-color: rgb(173, 173, 173);
 }
 
 ::placeholder {
-  color: white;
+  color: var(--text-primary-color);
 }
 
 .App {
+  background-color: var(--background-color);
   width: 100vw;
   min-height: 100vh;
-  background-color: #1c1c1c;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.container {
-  min-height: 1000px;
-  width: 90%;
-  display: flex;
-  /* flex-direction: column; */
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  background-color: #1c1c1c;
-}
-
-.view-container {
-  /* height: 250px; */
-  width: 300px;
-  background-color: rgb(46, 46, 46);
-  margin: 1rem 0.5rem;
-  border-radius: 12px;
-  box-shadow: 0 15px 25px 0px rgba(0, 0, 0, 0.308);
-}
-
 .search {
-  /* background-color: #fff; */
-  margin: 1rem 0;
+  margin: 3rem 0 1rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,10 +95,10 @@ html,
 }
 
 .search input {
+  color: var(--color-gray);
+  background-color: var(--color-off-white);
   padding: 0.5rem;
-  color: rgb(70, 70, 70);
   border: none;
-  background-color: gray;
   border-radius: 25px 0 0 25px;
 }
 
@@ -93,12 +114,26 @@ html,
   display: inline-block;
 }
 
+.container {
+  min-height: 1000px;
+  width: 90%;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: var(--background-color);
+}
+
 .nftCard {
-  border-radius: 12px;
-  color: rgb(224, 224, 224);
-  font-family: "roboto";
+  color: var(--text-primary-color);
+  font-family: var(--font-secondary);
+  width: 300px;
+  background-color: var(--nft-card-bgc);
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 25px 0px rgba(0, 0, 0, 0.308);
   /* background-color: rgb(56, 56, 56); */
 }
 
@@ -106,7 +141,7 @@ html,
   overflow-y: scroll;
   overflow-x: hidden;
   height: 150px;
-  background-color: rgb(51, 51, 51);
+  background-color: var(--nft-card-description-bgc);
   /* border: 1px solid black; */
   border-radius: 5px;
   padding: 0 1rem;
@@ -116,19 +151,63 @@ html,
   height: 50px;
 }
 
-.nftCard .error {
-  color: red;
-  font-family: "courier new";
+.error-wrapper {
+  height: 30px;
+}
+
+.nftCard .error-wrapper .error {
+  color: var(--color-error);
+  font-family: var(--font-secondary);
   font-size: 12px;
   text-align: center;
 }
 
 .page-navigator .progress {
+  font-family: var(--font-secondary);
   color: rgb(224, 224, 224);
   display: flex;
   justify-content: center;
-  font-family: "roboto";
   font-weight: 700;
   font-size: 24px;
   padding: 1rem 0;
+}
+
+/* Loading Spinner */
+
+.ring-wrapper {
+  position: absolute;
+  padding: 1rem;
+  background-color: rgba(36, 36, 36, 0.664);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  z-index: 1000;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  /* position: absolute; */
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  /* margin: 8px; */
+  margin: auto;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -1,5 +1,5 @@
 import { AlchemyContext } from "@providers";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 export const PageNavigator = ({ address }) => {
   const { getNftsForOwner, pageIndex, setPageIndex, pageKeys, totalPages } =
@@ -16,16 +16,14 @@ export const PageNavigator = ({ address }) => {
     setPageIndex((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    console.log(pageKeys, pageIndex);
-  }, [pageKeys, pageIndex]);
-
   return (
     <div className='page-navigator'>
       {totalPages > 1 && (
         <>
           <div>
-            <button onClick={handlePrevClick}>Prev</button>
+            <button onClick={handlePrevClick} disabled={pageIndex == 0}>
+              Prev
+            </button>
             <button
               onClick={handleNextClick}
               disabled={pageIndex === totalPages}>
@@ -33,7 +31,7 @@ export const PageNavigator = ({ address }) => {
             </button>
           </div>
           <span className='progress'>
-            {pageIndex}/{totalPages}
+            {pageIndex + 1}/{totalPages + 1}
           </span>
         </>
       )}
