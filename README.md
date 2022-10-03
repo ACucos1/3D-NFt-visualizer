@@ -13,3 +13,5 @@ To launch the dev environemt run
 `yarn run`
 
 Navigate to the url which appears in the console after running to use the app.
+
+Go to https://3-d-nf-t-visualizer.vercel.app/ to test it without having to download.
