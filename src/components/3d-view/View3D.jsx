@@ -1,5 +1,5 @@
 import { Box } from "@components";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 export function View3D({ nftImg }) {
@@ -14,7 +14,7 @@ export function View3D({ nftImg }) {
         enableZoom={false}
         maxDistance={1.5}
       />
-      {/* <Stars /> */}
+      <Stars />
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 15, 10]} angle={0.3} />
       {/* <Physics> */}
