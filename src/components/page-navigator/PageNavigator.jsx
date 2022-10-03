@@ -1,19 +1,42 @@
 import { AlchemyContext } from "@providers";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export const PageNavigator = ({ address }) => {
-  const { getNftsForOwner, pageKey } = useContext(AlchemyContext);
+  const { getNftsForOwner, pageIndex, setPageIndex, pageKeys, totalPages } =
+    useContext(AlchemyContext);
 
-  const handlePrevClick = () => {};
-
-  const handleNextClick = () => {
-    getNftsForOwner(address, pageKey);
+  const handlePrevClick = () => {
+    // console.log(pageKeys);
+    getNftsForOwner(address, pageKeys[pageIndex - 1]);
+    setPageIndex((prev) => prev - 1);
   };
 
+  const handleNextClick = () => {
+    getNftsForOwner(address, pageKeys[pageIndex + 1]);
+    setPageIndex((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    console.log(pageKeys, pageIndex);
+  }, [pageKeys, pageIndex]);
+
   return (
-    <div>
-      <button onClick={handlePrevClick}>Prev</button>
-      <button onClick={handleNextClick}>Next</button>
+    <div className='page-navigator'>
+      {totalPages > 1 && (
+        <>
+          <div>
+            <button onClick={handlePrevClick}>Prev</button>
+            <button
+              onClick={handleNextClick}
+              disabled={pageIndex === totalPages}>
+              Next
+            </button>
+          </div>
+          <span className='progress'>
+            {pageIndex}/{totalPages}
+          </span>
+        </>
+      )}
     </div>
   );
 };

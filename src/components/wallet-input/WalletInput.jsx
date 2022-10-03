@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { AlchemyContext } from "@providers";
 import { PageNavigator } from "@components";
 
@@ -11,7 +11,7 @@ export function WalletInput() {
   };
 
   const handleClick = () => {
-    getNftsForOwner(searchTerm.toLowerCase());
+    getNftsForOwner(searchTerm.toLowerCase(), "", true);
   };
 
   return (

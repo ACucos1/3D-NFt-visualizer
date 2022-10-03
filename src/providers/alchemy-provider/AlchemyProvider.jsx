@@ -1,6 +1,6 @@
-import React, { createContext, useState } from "react";
-import { Network, Alchemy } from "alchemy-sdk";
-import { urlWorks, isValidUrl, extractNftData } from "@utils";
+import { extractNftData, isValidUrl, urlWorks } from "@utils";
+import { Alchemy, Network } from "alchemy-sdk";
+import { createContext, useState } from "react";
 
 export const AlchemyContext = createContext();
 const settings = {
@@ -11,18 +11,31 @@ const settings = {
 export const AlchemyProvider = ({ children }) => {
   const [alchemy] = useState(new Alchemy(settings));
   const [nftObjs, setNftObjs] = useState([]);
-  const [pageKey, setPageKey] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageKeys, setPageKeys] = useState([""]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const getNftsForOwner = async (address, pageKey = "") => {
+  const getNftsForOwner = async (
+    address,
+    pageKey = "",
+    isNewSearch = false
+  ) => {
+    if (isNewSearch) {
+      setPageKeys([""]);
+      setPageIndex(0);
+    }
     setNftObjs([]);
     const response = await alchemy.nft.getNftsForOwner(address, {
       owner: address,
       pageKey: pageKey,
       pageSize: 8,
     });
-    console.log("Number of NFTs found: ", response.totalCount);
+    // console.log("Number of NFTs found: ", response.totalCount);
     console.log(response);
-    setPageKey(response?.pageKey ?? "");
+    setTotalPages(Math.ceil(response.totalCount / 8));
+    if (pageKeys.indexOf(response.pageKey) === -1) {
+      setPageKeys((prev) => [...prev, response.pageKey]);
+    }
 
     const nfts = response.ownedNfts;
     validateNfts(nfts);
@@ -33,16 +46,26 @@ export const AlchemyProvider = ({ children }) => {
       let nftObj = extractNftData(nft);
       if (isValidUrl(nftObj.url)) {
         const result = await urlWorks(nftObj.url);
-        if (result == true) {
-          setNftObjs((prev) => [...prev, nftObj]);
+        if (result === false) {
+          nftObj.error = true;
         }
+        setNftObjs((prev) => [...prev, nftObj]);
       }
     }
   };
 
   return (
     <AlchemyContext.Provider
-      value={{ alchemy, getNftsForOwner, pageKey, nftObjs }}>
+      value={{
+        alchemy,
+        getNftsForOwner,
+        totalPages,
+        pageIndex,
+        setPageIndex,
+        nftObjs,
+        pageKeys,
+        setPageKeys,
+      }}>
       {children}
     </AlchemyContext.Provider>
   );

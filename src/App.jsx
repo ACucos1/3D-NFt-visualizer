@@ -11,6 +11,7 @@ const NftCard = ({
   return (
     <div className='nftCard'>
       <h2 className='name'>{name}</h2>
+      {!url && <p className='error'>Error loading image</p>}
       <View3D nftImg={url} />
       <div className='description'>
         <p>{description}</p>
@@ -30,11 +31,19 @@ function App() {
         {nftObjs.length > 0 &&
           nftObjs.map((nftObj, idx) => (
             <div key={idx} className='view-container'>
-              <NftCard
-                url={nftObj.url}
-                name={nftObj.name}
-                description={nftObj.desc}
-              />
+              {nftObj.error === false ? (
+                <NftCard
+                  url={nftObj.url}
+                  name={nftObj.name}
+                  description={nftObj.desc}
+                />
+              ) : (
+                <NftCard
+                  url={""}
+                  name={nftObj.name}
+                  description={nftObj.desc}
+                />
+              )}
             </div>
           ))}
       </div>
