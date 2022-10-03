@@ -7,9 +7,9 @@ This is a vite-react app which uses the Alchemy SDK to fetch a wallet's owned NF
 ## How to use
 
 After cloning the repo from github, run  
-`npm i` to install all depencies.
+`yarn i` to install all depencies.
 
 To launch the dev environemt run  
-`npm run`
+`yarn run`
 
 Navigate to the url which appears in the console after running to use the app.
