@@ -1,15 +1,15 @@
 import {
-  LoadingSpinner,
-  WalletInput,
-  NftCard,
   LoadingSkeleton,
+  LoadingSpinner,
+  NftCard,
+  WalletInput,
 } from "@components";
 import { AlchemyContext } from "@providers";
 import { useContext } from "react";
 import "./App.css";
 
 function App() {
-  const { nftObjs, loading, pageKeys } = useContext(AlchemyContext);
+  const { nftObjs, loading } = useContext(AlchemyContext);
 
   return (
     <div className='App'>

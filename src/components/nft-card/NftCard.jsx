@@ -13,7 +13,7 @@ export const NftCard = ({
       <div className='error-wrapper'>
         {error && !loading && <p className='error'>Error loading image</p>}
       </div>
-      {!loading && <View3D nftImg={!error ? url : ""} />}
+      {!loading && <View3D nftImg={error === false ? url : ""} />}
       <div className='description'>
         <p>{description}</p>
       </div>

@@ -39,20 +39,15 @@ export const AlchemyProvider = ({ children }) => {
 
     const nfts = response.ownedNfts;
     validateNfts(nfts);
-    setLoading(false);
   };
 
   const validateNfts = async (nfts) => {
-    setLoading(true);
     for (const nft of nfts) {
       let nftObj = extractNftData(nft);
-      if (isValidUrl(nftObj.url)) {
-        const result = await urlWorks(nftObj.url);
-        if (result === false) {
-          nftObj.error = true;
-        }
-        setNftObjs((prev) => [...prev, nftObj]);
+      if (!isValidUrl(nftObj.url) || !(await urlWorks(nftObj.url))) {
+        nftObj.error = true;
       }
+      setNftObjs((prev) => [...prev, nftObj]);
     }
     setLoading(false);
   };
