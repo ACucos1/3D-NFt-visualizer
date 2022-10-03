@@ -9,7 +9,7 @@ import { useContext } from "react";
 import "./App.css";
 
 function App() {
-  const { nftObjs, loading } = useContext(AlchemyContext);
+  const { nftObjs, loading, pageKeys } = useContext(AlchemyContext);
 
   return (
     <div className='App'>
@@ -25,17 +25,19 @@ function App() {
       {loading && <LoadingSpinner />}
 
       <div className='container'>
-        {nftObjs.length > 0
-          ? nftObjs.map((nftObj, idx) => (
-              <NftCard
-                key={idx}
-                url={nftObj.url}
-                name={nftObj.name}
-                description={nftObj.desc}
-                error={nftObj.error}
-              />
-            ))
-          : loading && <LoadingSkeleton />}
+        {nftObjs.length > 0 ? (
+          nftObjs.map((nftObj, idx) => (
+            <NftCard
+              key={idx}
+              url={nftObj.url}
+              name={nftObj.name}
+              description={nftObj.desc}
+              error={nftObj.error}
+            />
+          ))
+        ) : (
+          <LoadingSkeleton />
+        )}
       </div>
     </div>
   );
